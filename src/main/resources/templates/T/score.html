@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/x-admin/lib/layui/css/layui.css}">
+    <script th:src="@{/x-admin/lib/layui/layui.js}"></script>
+</head>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space10" >
+        <div class="layui-col-md4">
+            <br><br><br>
+            <table id="tea_view_course" lay-filter="tea_view_course" ></table>
+            <button lay-submit lay-filter="subsc">提交</button>
+        </div>
+        <div class="layui-col-md8">
+            <table id="tea_view_stu" lay-filter="tea_view_stu"></table>
+        </div>
+    </div>
+</div>
+<script>
+    var table;
+    layui.use('table', function () {
+        table = layui.table;
+        //第一个实例
+        var tea_view_course = table.render({ //课表
+            elem: '#tea_view_course'
+            , height: 400
+            , url: "/tea/view_course" //数据接口
+            ,request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                ,limitName: 'size' //每页数据量的参数名，默认：limit
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.totalElements , //解析数据长度
+                    "data": res.content //解析数据列表
+                };
+            }
+            , cols: [
+                [ //表头
+                { field: 'kh', title: '课程号' }
+                , { field: 'km', title: '课程名' }
+                , { field: 'xf', title: '学分' }
+                , { field: 'xs', title: '课时' }
+                ]
+            ],
+        });
+        var wait={};
+        table.on('row(tea_view_course)', function(obj){
+            var tea_view_stu = table.render({ //学生分数
+                elem: '#tea_view_stu'
+                , height: 560
+                , url: "/tea/view_sc" //数据接口
+                ,request: {
+                    pageName: 'page' //页码的参数名称，默认：page
+                    ,limitName: 'size' //每页数据量的参数名，默认：limit
+                }
+                ,where:{
+                    "kh": obj.data.kh
+                }
+                ,parseData: function(res){ //res 即为原始返回的数据
+                    return {
+                        "code": 0, //解析接口状态
+                        "msg": res.message, //解析提示文本
+                        "count": res.totalElements , //解析数据长度
+                        "data": res.content //解析数据列表
+                    };
+                }
+                , cols: [
+                    [
+                        { field: 'xh', title: '学号' }
+                        , { field: 'xm', title: '姓名' }
+                        , { field: 'kh', title: '课号' }
+                        , { field: 'km', title: '课名' }
+                        , { field: 'pscj', title: '平时成绩',edit:'text'}
+                        , { field: 'kscj', title: '考试成绩',edit:'text' }
+                        , { field: 'zpcj', title: '总评成绩',edit:'text'}
+                    ]
+                ]
+
+            });
+
+
+        });
+        layui.use('form', function(){
+            var form = layui.form;
+            //监听提交
+            form.on('submit(subsc)', function(data){
+                if(wait=={}) return;
+                let afterdata=[];
+                //console.log(wait);
+                for(let v in wait){
+                    let tmp={};
+                    tmp.kh = wait[v].kh;
+                    tmp.xh = v;
+                    tmp.pscj = wait[v].pscj;
+                    tmp.kscj = wait[v].kscj;
+                    tmp.zpcj = wait[v].zpcj;
+                    afterdata.push(tmp);
+                }
+                console.log(afterdata);
+                $.ajax({
+                    url: "/change_cj",
+                    async: false,
+                    type: 'post',
+                    data: JSON.stringify(afterdata),
+                    contentType: "application/json",
+                    //traditional: true,
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(XMLHttpRequest);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    },
+                    success: function (response) {
+                        if(response === true)
+                        for(let key in wait) {
+                            delete wait[key];
+                        }
+                    }
+                });
+            });
+        });
+        table.on('edit(tea_view_stu)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            wait[obj.data.xh] = obj.data;
+            // wait[{obj.data.kh,obj.data.xh}] = obj.data;
+        });
+        /*
+        */
+    });
+
+
+
+</script>
+
+</html>
+
+

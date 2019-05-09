@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>后台登录</title>
+    <link th:href="@{/css/login.css}" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<div class="login">
+    <div class="message">教务管理-登录</div>
+    <div id="darkbannerwrap"></div>
+
+    <div>
+        <!--input name="action" value="login" type="hidden"-->
+        <input name="username" placeholder="学号或工号" required="" type="text" id="username">
+        <hr class="hr15">
+        <input name="password" placeholder="密码" required="" type="password" id="password">
+        <hr class="hr15">
+        <br>
+        <input value="登录" style="width:100%;" id="submit" type="submit">
+        <hr class="hr20">
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+
+    <script>
+
+        $("#submit").click(function () {
+            var username = $('#username').val();
+            var password = $('#password').val();
+            //alert(11);alert(username+password);
+
+            $.ajax({
+                url: '/login',
+                async: false,
+                type: 'post',
+                dataType: "",
+                data: {
+                    'userId': username,
+                    'password': password
+                },
+
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                success: function (response) {
+                    if(response==="no") alert("登录失败");
+                    else window.location="/home";
+                }
+            });
+
+
+        });
+    </script>
+</body>
+
+</html>
