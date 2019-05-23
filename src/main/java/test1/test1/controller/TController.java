@@ -32,10 +32,10 @@ public class TController {
 
     @RequestMapping("/tea/view_course")
     public Page<Map<String,Object>> tea_view_course(HttpSession httpSession,Integer page,Integer size){
-//        System.out.println(httpSession.getAttribute("userId"));
+        System.out.println(httpSession.getAttribute("userId"));
 //        System.out.println(page);
 //        System.out.println(size);
-        return cService.findbygh((Integer)(httpSession.getAttribute("userId")),page,size);
+        return cService.findbygh((Integer)(httpSession.getAttribute("userId")),page-1,size);
     }
 
     @RequestMapping("/tea/view_sc")

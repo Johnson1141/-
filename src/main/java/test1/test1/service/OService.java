@@ -2,9 +2,12 @@ package test1.test1.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import test1.test1.entity.OEntity;
+import test1.test1.entity.OEntityPK;
 import test1.test1.repository.ORepository;
 import test1.test1.repository.ViewCourse;
 
@@ -32,4 +35,16 @@ public class OService {
         return content;
     }
 
+    public void AddOpenCourse(OEntity oEntity){
+        oRepository.save(oEntity);
+    }
+
+    public Page<OEntity> show_o(int page,int size){
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return oRepository.findAll(pageRequest);
+    }
+
+    public void DeleteOpenCourse(OEntityPK oEntityPK){
+        oRepository.deleteById(oEntityPK);
+    }
 }

@@ -62,4 +62,6 @@ public interface ORepository extends JpaRepository<OEntity,OEntityPK> {
     //查一个老师开了那些课
     List<OEntity> findAllByGh(int gh);
 
+    Page<OEntity> findAll(Pageable pageable);
+
 }

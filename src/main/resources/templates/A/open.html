@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录-X-admin2.1</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--    <link rel="stylesheet" href="./css/font.css">-->
+    <!--	<link rel="stylesheet" href="./css/xadmin.css">-->
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <!--    <script src="./lib/layui/layui.js" charset="utf-8"></script>-->
+    <!--    <script type="text/javascript" src="./js/xadmin.js"></script>-->
+    <!--    <script type="text/javascript" src="./js/cookie.js"></script>-->
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <link rel="stylesheet" th:href="@{/x-admin/css/font.css}">
+    <link rel="stylesheet" th:href="@{/x-admin/css/xadmin.css}">
+    <script th:src="@{/x-admin/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/x-admin/js/xadmin.js}"></script>
+    <script type="text/javascript" th:src="@{/x-admin/js/cookie.js}"></script>
+
+</head>
+<body>
+    <div class="layui-container">
+        <div class="layui-row" >
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">所有开课</li>
+                    <li>新加开课</li>
+                    <li>删除开课</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <table id="stu"></table>
+                    </div>
+                    <div class="layui-tab-item">
+                        <form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">学期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="xq" placeholder="例:2012-2013冬季"  required lay-verify="required" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">课号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="kh" required lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">工号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="gh" required lay-verify="required"  autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">上课时间</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sksj" required lay-verify="required" autocomplete="off" class="layui-input">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn"  lay-submit lay-filter="*1">提交</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="layui-tab-item">
+                        <form class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">学期</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="xq" placeholder="例:2012-2013冬季" required lay-verify="required" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">课号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="kh"  required lay-verify="required" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">工号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="gh"  required lay-verify="required" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-block">
+                                    <button class="layui-btn"  lay-submit lay-filter="*2">提交</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //第一个实例
+        table.render({
+            elem: '#stu'
+            ,height: 450
+            ,url: '/admin/allopen' //数据接口
+            ,page: true //开启分页
+            ,request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                ,limitName: 'size' //每页数据量的参数名，默认：limit
+            }
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": res.message, //解析提示文本
+                    "count": res.totalElements , //解析数据长度
+                    "data": res.content //解析数据列表
+                };
+            }
+            ,cols: [
+                [ //表头
+                {field: 'xq', title: '学期'}
+                ,{field: 'kh', title: '课号'}
+                ,{field: 'gh', title: '工号'}
+                ,{field: 'sksj', title: '上课时间'}
+                ,{field: 'num', title: '选课人数'}
+            ]
+            ]
+        });
+
+    });
+    layui.use('form', function(){
+        var form = layui.form;
+        //监听提交
+        form.on('submit(*1)', function(data){
+            console.log(JSON.stringify(data.field)) //当前容器的全部表单字段，名值对形式：{name: value}
+
+             $.ajax({
+                url: "/admin/addopen",
+                async: false,
+                type: 'post',
+                data:  data.field,
+                //contentType: "application/json",
+                //traditional: true,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                success: function (response) {
+                    var layer = layui.layer;
+                    if(response === 1)
+                    // console.log(1);
+                        layer.msg("成功");
+                    else layer.msg("失败");
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+
+        form.on('submit(*2)', function(data){
+            console.log(JSON.stringify(data.field)) //当前容器的全部表单字段，名值对形式：{name: value}
+
+            $.ajax({
+                url: "/admin/deleteopen",
+                async: false,
+                type: 'post',
+                data:  data.field,
+                //contentType: "application/json",
+                //traditional: true,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    console.log(XMLHttpRequest);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                },
+                success: function (response) {
+                    var layer = layui.layer;
+                    if(response === 1)
+                        // console.log(1);
+                        layer.msg("成功");
+                    else layer.msg("失败");
+                }
+            });
+            return false;
+        });
+    });
+
+</script>
+
+
+</html>

@@ -7,6 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "s", schema = "test1", catalog = "")
 public class SEntity {
+
     private int xh;
     private Date csrq;
     private String jg;
@@ -113,5 +114,19 @@ public class SEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "SEntity{" +
+                "xh=" + xh +
+                ", csrq=" + csrq +
+                ", jg='" + jg + '\'' +
+                ", sjhm='" + sjhm + '\'' +
+                ", xb=" + xb +
+                ", xm='" + xm + '\'' +
+                ", yxh=" + yxh +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

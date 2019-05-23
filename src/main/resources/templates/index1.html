@@ -75,7 +75,7 @@
             </li>
 
             <li>
-                <a _href="";>
+                <a _href="/view/stu";>
                     <i class="iconfont">&#xe6b8;</i>
                     <cite>成绩查看</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
@@ -93,34 +93,40 @@
                 </li>
 
                 <li>
-                    <a _href="";>
+                    <a _href="/view/tea";>
                         <i class="iconfont">&#xe6b8;</i>
                         <cite>数据查看</cite>
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>
                 </li>
             </div>
+
             <div th:if="${session.userType} eq 3">
                 <li>
-                    <a _href="";>
+                    <a _href="/adm/stu";>
                         <i class="iconfont">&#xe6b8;</i>
-                        <cite>课</cite>
+                        <cite>管理学生</cite>
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>
                 </li>
-
                 <li>
-                    <a _href="";>
+                    <a _href="/adm/tea";>
                         <i class="iconfont">&#xe6b8;</i>
-                        <cite>学生</cite>
+                        <cite>管理老师</cite>
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>
                 </li>
-
                 <li>
-                    <a _href="";>
+                    <a _href="/adm/course";>
                         <i class="iconfont">&#xe6b8;</i>
-                        <cite>老师</cite>
+                        <cite>管理课程</cite>
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                </li>
+                <li>
+                    <a _href="/adm/open";>
+                        <i class="iconfont">&#xe6b8;</i>
+                        <cite>管理开课</cite>
                         <i class="iconfont nav_right">&#xe697;</i>
                     </a>
                 </li>

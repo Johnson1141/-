@@ -24,6 +24,10 @@ public interface SCRepository extends JpaRepository<EEntity, EEntityPK> {
             "and t.gh = o.gh and o.kh =c.kh and e.xh=:xh order by e.kh asc")
     List<ViewSC> getAllByXh(@Param("xh") int xh);
 
+    @Query(nativeQuery = true,value = "SELECT e.zpcj FROM t,e,c,o WHERE e.kh=o.kh and e.xq=o.xq and e.gh=o.gh " +
+            "and t.gh = o.gh and o.kh =c.kh and e.gh=?1 and e.kh=?2")
+    List<Integer> getAllByGh(@Param("gh") int gh,int kh);
+
     List<EEntity> getAllByGhAndKh(int gh,int kh);
 
     //业务查询不能重课
@@ -33,7 +37,7 @@ public interface SCRepository extends JpaRepository<EEntity, EEntityPK> {
     //save不用重写
 
     //工号和课号 所有的课
-    @Query(nativeQuery = true, value = "select distinct e.xh,s.xm,e.kh,c.km,e.pscj,e.kscj,e.zpcj from c,s,e " +
+    @Query(nativeQuery = true, value = "select distinct e.xh,s.xm,e.kh,c.km,e.pscj,e.kscj,e.zpcj from c,s,e,o " +
             "where e.kh=c.kh and e.xh=s.xh "
             +" and e.kh= :kh "
             +" and e.gh= :gh ")
@@ -44,4 +48,8 @@ public interface SCRepository extends JpaRepository<EEntity, EEntityPK> {
     @Query(nativeQuery = true, value = "update e set e.pscj = ?4,e.kscj= ?5,e.zpcj=?6 where " +
             "e.xh=?1 and e.kh=?2 and e.gh=?3 ")
     void updatecj(Integer xh,Integer kh,Integer gh,Integer pscj,Integer kscj,Integer zpcj);
+
+    //查找userid 一样的课名和成绩
+    List<EEntity> findAllByXh(Integer xh);
+
 }

@@ -9,8 +9,7 @@ import test1.test1.component.LoginHandlerInterceptor;
 public class MyConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //super.addInterceptors(registry);
-        LoginHandlerInterceptor loginHandlerInterceptor = new LoginHandlerInterceptor();
-        registry.addInterceptor(loginHandlerInterceptor).addPathPatterns("/**","/home").excludePathPatterns(loginHandlerInterceptor.getUrl());
+//        LoginHandlerInterceptor loginHandlerInterceptor = new LoginHandlerInterceptor();
+//        registry.addInterceptor(loginHandlerInterceptor).addPathPatterns("/**","/home").excludePathPatterns(loginHandlerInterceptor.getUrl());
     }
 }
