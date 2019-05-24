@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import test1.test1.entity.CEntity;
 import java.util.List;
 import java.util.Map;
@@ -22,5 +23,11 @@ public interface CRepository extends JpaRepository<CEntity,Integer> {
     Page<Map<String,Object> > findById(Integer gh, Pageable pageable);
 
     Page<CEntity> findAll(Pageable pageable);
+
+
+    @Query(value = "call sec_to_time(?1) ", nativeQuery = true)
+    int selectdByLike(@Param("pname") String pname);
+
+
 
 }

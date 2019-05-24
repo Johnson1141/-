@@ -59,12 +59,16 @@ public class TController {
         //eEntity.setXq("2012-2013冬季");
         //if( scService.saveSC(eEntity)) return true;
         for( Map<String,Object> v:ids){
+            System.out.println(v.toString());
             Integer xh = Integer.parseInt(v.get("xh").toString());
             Integer kh = Integer.parseInt(v.get("kh").toString());
             Integer gh = Integer.parseInt(httpSession.getAttribute("userId").toString());
             Integer pscj=null,kscj=null,zpcj=null;
+//            System.out.println(""+v.get("pscj").toString()
+//                    +v.get("kscj").toString()
+//                    +v.get("zpcj").toString());
             if(v.get("pscj")!=null) pscj = Integer.parseInt(v.get("pscj").toString());
-            if(v.get("kscj")!=null) kscj = Integer.parseInt(v.get("kcsj").toString());
+            if(v.get("kscj")!=null) kscj = Integer.parseInt(v.get("kscj").toString());
             if(v.get("zpcj")!=null) zpcj = Integer.parseInt(v.get("zpcj").toString());
             scService.updatecj(xh,kh,gh,pscj,kscj,zpcj);
 //            if(!scService.saveSC((EEntity)(v)))  return false;

@@ -117,9 +117,14 @@
                         console.log(errorThrown);
                     },
                     success: function (response) {
-                        if(response === true)
-                        for(let key in wait) {
-                            delete wait[key];
+                        if(response === true) {
+                            for (let key in wait) {
+                                delete wait[key];
+                            }
+                            layer.alert("加课成功");
+                        }
+                        else{
+                            layer.alert("加课失败");
                         }
                     }
                 });

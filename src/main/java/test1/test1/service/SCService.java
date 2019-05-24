@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import test1.test1.entity.EEntity;
-import test1.test1.entity.EEntityPK;
 import test1.test1.repository.SCRepository;
 import test1.test1.repository.ViewSC;
 
