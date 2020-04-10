@@ -26,8 +26,6 @@ public interface CRepository extends JpaRepository<CEntity,Integer> {
 
 
     @Query(value = "call sec_to_time(?1) ", nativeQuery = true)
-    int selectdByLike(@Param("pname") String pname);
-
-
+    int addnum(@Param("pname") String pname);
 
 }
